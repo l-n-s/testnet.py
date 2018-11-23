@@ -76,3 +76,6 @@ To list all network namespaces:
 
     ip netns list
 
+# More info
+
+- [How to run 128 (testnet) I2P routers in multiple subnets on a single Linux system](https://0xcc.re/how-to-run-128-i2p-routers-in-multiple-subnets-on-a-single-linux-system/) by Mikal Villa
