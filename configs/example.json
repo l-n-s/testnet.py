@@ -1,0 +1,45 @@
+{
+    "workspace": "/tmp/example",
+    "gateway": "gw",
+    "debug_logging": true,
+    "i2p_install_path": "/home/user/Projects/JavaI2P/Source/i2p.i2p/pkg-temp",
+    "i2p_options": [
+        "time.disabled=true", 
+        "router.updateDisabled=true", "router.reseedDisable=true"
+    ],
+    "clients_config": [
+        "clientApp.0.main=net.i2p.sam.SAMBridge",
+        "clientApp.0.name=SAMBridge",
+        "clientApp.0.args=sam.keys 127.0.0.1 7656 i2cp.tcp.host=localhost i2cp.tcp.port=7654",
+        "clientApp.0.startOnLoad=true"
+    ],
+    "i2pd_binary": "/home/user/Projects/PurpleI2P/i2pd/i2pd",
+    "i2pd_args": [
+        "--nat", "false", "--log", "file", "--ifname", "eth0",
+        "--i2pcontrol.enabled", "true", "--sam.enabled", "true"
+    ],
+    "networks": {
+        "france":  {"subnet": "10.4.0.0/24",      "gateway": "10.4.0.1/24"},
+        "germany": {"subnet": "192.168.132.0/24", "gateway": "192.168.132.1/24"},
+        "us":      {"subnet": "10.11.0.0/24",     "gateway": "10.11.0.1/24"},
+        "russia":  {"subnet": "192.168.74.0/24",  "gateway": "192.168.74.1/24"}
+    },
+    "nodes": [
+        {"router": "i2p", "name": "reseed1", "network": "france", "ip": "10.4.0.21", "floodfill": true, "reseed": true},
+        {"router": "i2p", "name": "reseed2", "network": "germany", "ip": "192.168.132.55", "floodfill": true, "reseed": true},
+        {"router": "i2p", "name": "reseed3", "network": "us", "ip": "10.11.0.133", "floodfill": true, "reseed": true},
+
+        {"router": "i2p", "name": "jean0", "network": "france", "ip": "10.4.0.194", "floodfill": false},
+        {"router": "i2p", "name": "jean1", "network": "france", "ip": "10.4.0.238", "floodfill": true},
+        {"router": "i2p", "name": "jean2", "network": "france", "ip": "10.4.0.230", "floodfill": false},
+        {"router": "i2p", "name": "hans0", "network": "germany", "ip": "192.168.132.155", "floodfill": false},
+        {"router": "i2p", "name": "hans1", "network": "germany", "ip": "192.168.132.145", "floodfill": true},
+        {"router": "i2p", "name": "hans2", "network": "germany", "ip": "192.168.132.34", "floodfill": false},
+        {"router": "i2p", "name": "hans3", "network": "germany", "ip": "192.168.132.110", "floodfill": true},
+        {"router": "i2p", "name": "john0", "network": "us", "ip": "10.11.0.251", "floodfill": false},
+        {"router": "i2p", "name": "john1", "network": "us", "ip": "10.11.0.208", "floodfill": true},
+        {"router": "i2p", "name": "john2", "network": "us", "ip": "10.11.0.177", "floodfill": false},
+        {"router": "i2p", "name": "ivan0", "network": "russia", "ip": "192.168.74.174", "floodfill": false},
+        {"router": "i2p", "name": "ivan1", "network": "russia", "ip": "192.168.74.18", "floodfill": true}
+    ]
+}
