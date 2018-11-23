@@ -13,14 +13,14 @@ For running i2pd nodes it only needs i2pd binary.
 - Linux OS
 - Python 3
 - sudo
-- system user with sudo privilege configured without password prompt
+- a system user with sudo privilege configured without password prompt
 
 For example, create a user "testnet" and add this line to sudoers file (run `sudo visudo`):
 
     testnet   ALL=(ALL:ALL) NOPASSWD:ALL
 
-In fact, the only program this script runs with sudo is iproute2 (/bin/ip) for dealing with netns stuff.
-Routers run with regular user id.
+In fact, the only program this script runs with sudo is iproute2 (/bin/ip) for dealing with the netns stuff.
+Routers run with a regular user id.
 
 # Configuration
 
@@ -70,7 +70,7 @@ Example config file is located in "configs/example.json"
 
 To run a shell within router's network namespace:
 
-    sudo ip netns exec \<routername\> su - \<username\>
+    sudo ip netns exec <routername> su - <username>
 
 To list all network namespaces:
 
