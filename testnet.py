@@ -18,6 +18,7 @@ if sys.version_info.major < 3:
     sys.exit(1)
 
 from contextlib import suppress
+import concurrent.futures
 
 def fatal_error(msg):
     """Show an error and exit"""
@@ -266,20 +267,28 @@ def start(args):
                                       conf["networks"][n]["gateway"])
 
     reseed_nodes = [n for n in conf["nodes"] if "reseed" in n and n["reseed"] == True]
-    for n in reseed_nodes: start_router(conf, n)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+        fs = [executor.submit(start_router, conf, n) for n in reseed_nodes]
+        concurrent.futures.wait(fs)
+
     make_netdb_dir(conf, reseed_nodes)
 
-    for n in conf["nodes"]: 
-        if n not in reseed_nodes: start_router(conf, n)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+        fs = [executor.submit(start_router, conf, n) for n in conf["nodes"] if n not in reseed_nodes]
+        concurrent.futures.wait(fs)
 
 def stop(args):
     conf = load_config(args.config)
-    for n in conf["nodes"]:
-        datadir = os.path.join(conf["workspace"], n["name"])
-        stop_router(conf, n)
-        # move log files
-        with suppress(FileNotFoundError): shutil.rmtree(datadir)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+        fs = [executor.submit(stop_router, conf, n) for n in conf["nodes"]]
+        concurrent.futures.wait(fs)
     run("sudo -n ip netns del {}".format(conf["gateway"]))
+
+    for n in conf["nodes"]:
+        with suppress(FileNotFoundError):
+            shutil.rmtree(os.path.join(conf["workspace"], n["name"]))
+
     with suppress(FileNotFoundError):
         shutil.rmtree(os.path.join(conf["workspace"], "netDb"))
 
