@@ -35,6 +35,10 @@ def load_config(path):
     except:
         fatal_error("Error parsing config file")
 
+    for v in ["i2p_install_path", "i2pd_binary"]:
+        if v in config and not os.path.exists(config[v]):
+            fatal_error("'{}' doesn't exist".format(config[v]))
+
     return config
 
 def run(command):
